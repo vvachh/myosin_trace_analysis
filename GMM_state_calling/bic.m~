@@ -1,0 +1,10 @@
+function bic(data,n)
+    % confirm that i know what the hell the BIC is. I don't like MATLAB's
+    % black box even though it's amazing.
+    
+    gm = fitgmdist(data,n);
+    
+    disp(gm.BIC);
+    disp(-2*sum(log(gm.pdf(data))) + 2*n*ln();
+
+end
