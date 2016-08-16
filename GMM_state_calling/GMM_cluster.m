@@ -3,7 +3,7 @@ function gm = GMM_cluster(X)
     % Bayesian Information Criterion to decide the best number of clusters.
     % Then returns that model fit.
     
-    max_num_clusters = 10;
+    max_num_clusters = 3;
     
     bics = zeros(1,max_num_clusters);
     
@@ -27,4 +27,11 @@ function gm = GMM_cluster(X)
     ylabel('SIC');
     
     gm = fitgmdist(X,opt_num_clusters,'Options',statset('MaxIter',1000));
+    
+    figure;
+    histogram(X,20);hold on; 
+    lsx = linspace(min(X),max(X),50);
+    plot(lsx,gm.pdf(lsx'));
+    xlabel('Value');
+    ylabel('Frequency');
 end

@@ -1,4 +1,4 @@
-function [seq,ll] = viterbi_algorithm(signal, trans, emis_all, emis, init)
+function [seqs,ll] = viterbi_algorithm_multiple_runs(signals, trans, emis_all, emis, init)
     % implementation of the Viterbi algorithm. 
     % Inputs:
     % - signal: set of observations
@@ -21,7 +21,7 @@ function [seq,ll] = viterbi_algorithm(signal, trans, emis_all, emis, init)
     
     % naive prior for starting state.
     if nargin<5
-        probabilities(:,1) = log(1/num_states*(ones(num_states,1)))+log(emis_all(signal(1))+0.00001);
+        probabilities(:,1) = log(1/num_states*(ones(num_states,1)))+log(emis_all(signal(1)));
     else
         probabilities(:,1) = log(init) + log(emis_all(signal(1)));
     end
@@ -30,7 +30,7 @@ function [seq,ll] = viterbi_algorithm(signal, trans, emis_all, emis, init)
         for j = 1:num_states
             %probabilities of observing the latest emission as a result of a
             %move to state j.
-            options = probabilities(:,i-1) + log(trans(:,j)+0.00001) + log(emis(signal(i),j)+0.00001); %transition probabilities adjusted by some small factor to prevent underflow.
+            options = probabilities(:,i-1) + log(trans(:,j)) + log(emis(signal(i),j));
             %pick the highest value from options and assign it to
             %traceback. This is the likelihood of the most likely path that
             %ends so far in state j.

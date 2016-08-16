@@ -1,0 +1,17 @@
+function hmm_exp_max(signal,gmm)
+    % uses expectation-maximization to find the maximum likelihood
+    % transition probabilities for an HMM, where the observations are given
+    % by signal and the hidden states and their emission probabilities are
+    % given by the Gaussian mixture model clusters from gmm.
+    
+    numiter = 1000;
+    num_states = gmm.NumComponents;
+    
+    %completely naive assumption
+    transition_matrix = 1/num_states*ones(num_states);
+    
+    for i = 1:numiter
+        % "expectation": Viterbi Algorithm to get ML estimate of states
+        % given 
+    end
+end

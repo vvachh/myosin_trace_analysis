@@ -1,23 +1,22 @@
-function all_velocities = velocity_fit_folder(mostly_unidirectional)
-    % Fit velocities to all runs in a folder, keep track of all the 
-    % velocities for each run.
-    % Does not keep track of state transitions: runs with velocities do not
-    % correspond to states yet.
+function signals = batch_velocity_signals(mostly_unidirectional)
+    % Extract time-dependent velocities from to all runs in a folder, 
+    % keep track of all the velocities for each run.
+    % Corresponds to the observed signal in an Hidden Markov Model of
+    % switchable motors
     
     curdir = pwd;
-    all_velocities = [];
+    signals = {};
     
     %Ask for the folder
     workdir = uigetdir(curdir,'Select Directory containing runs');
     cd(workdir);
-    
     %loop through the files
     files = dir('*.txt');
     for file=files'
         csv = load(file.name);
         name = file.name(1:end-4)
         t = csv(:,1); s = csv(:,2);
-        del_t = t(2)-t(1); %assumes data are evenly spaced...
+        %assumes data are evenly spaced.
         
         %fit velocities, store them, checking if we have already fit them
         %before.
@@ -27,19 +26,14 @@ function all_velocities = velocity_fit_folder(mostly_unidirectional)
             plf = csvread(strcat(name,'_plfit.csv'));
             disp('found previous fit of this trace.');
         end
-        siz = size(plf);
         flipit = 1;
         if nargin>0
             if sum(plf(:,3)<0)>sum(plf(:,3)>0)
                 flipit = -1;
             end
         end
-        for i = 1:siz(1)
-            % filter out subruns containing fewer than 3 points.
-            if plf(i,2)-plf(i,1)>=2*del_t
-                all_velocities(end+1) = flipit*plf(i,3);
-            end
-        end
+        % use the piecewise linear fit to give a velocity signal
+        signals{end+1} = flipit*plfuneval_v(plf,t);
     end
     
     cd(curdir);

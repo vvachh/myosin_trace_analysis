@@ -1,4 +1,4 @@
-function plot_velocity_histogram(velocities, unsigned, mostly_unidirectional)
+function velos = plot_velocity_histogram(velocities, unsigned, mostly_unidirectional)
     % given the output of velocity_fit_folder, plot a histogram.
     % also compatible with parallel_velocity_fit_folder.
     if nargin<3
