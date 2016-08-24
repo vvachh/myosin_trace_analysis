@@ -31,6 +31,11 @@ function [transition_matrix, seqs] = hmm_exp_max(signals,gmm)
         % estimate of the state sequence
         transition_matrix = markov_params_from_signal(seqs,num_states);
         
+%         mixing = histcounts([seqs{:}], 1:(num_states+1));
+%         mixing = mixing/sum(mixing)
+        [obsfun_all, obsfun] = observation_probability(gmm);
+        
+        
         lls(i) = lltot
     end
     plot(lls);
