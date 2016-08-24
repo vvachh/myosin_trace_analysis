@@ -1,0 +1,16 @@
+function coords_to_runcalc(coords,deltaT)
+    for i=1:numel(coords)
+        this_coord = coords{i};
+        degree = min([len(coords)-2,7]);
+        [t,s] = runcalc_single(this_coord,deltaT,degree);
+        
+        % save in an Igor-like format
+        filename = ['runx' num2str(mean(this_coord(:,1))) 'y' num2str(mean(thiscoord(:,2))) '.txt'];
+        txtFid = fopen(filename, 'w');
+        %data
+        for z=1:frames%z=2:frames
+            fprintf(txtFid, [num2str(t(z)) ' ' num2str(dist(z)) ' ' num2str(tracedata.Lxm(z)) ' ' num2str(tracedata.Lym(z)) ' ' num2str(tracedata.Lph(z)) ' ' num2str(tracedata.Lstdev(z,1)) ' ' num2str(tracedata.Lstdev(z,2)) ' ' num2str(tracedata.Lrsqd(z)) '\r\n']);
+        end
+        fclose(txtFid);
+    end
+end
