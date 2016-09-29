@@ -3,7 +3,7 @@ function gm = GMM_cluster(X)
     % Bayesian Information Criterion to decide the best number of clusters.
     % Then returns that model fit.
     
-    max_num_clusters = 10;
+    max_num_clusters = 2;
     
     bics = zeros(1,max_num_clusters);
     lls = zeros(1,max_num_clusters);
